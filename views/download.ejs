@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download | CyberSpace Share - File Sharing Made Easy</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.all.min.js"></script>
+
+
+</head>
+
+<body>
+  <img src="/img/logo.png" alt="CyberSpace logo" class="logo" />
+
+  <section class="download">
+    <img class="download__icon" src="/img/download-sd.svg" alt="inshare-download" />
+    <% if(locals.error){ %>
+    <h4><%= locals.error %> 😏</h4>
+    <% } else { %>
+    <div id="download-ready-container" class="download-ready-container">
+      <h2>Sucessful Verification. Your file is ready to download</h2>
+      <p>Link expires in 24 hours</p>
+      <div class="download__meta">
+        <h4><%= fileName %></h4>
+        <small><%= parseInt(fileSize/1000) %> KB</small>
+      </div>
+    </div>
+    <div id="twofa" class="twofa">
+      <h2>2FA Authenticaction</h2>
+      <p>
+        A verification code has been sent to your mobile.
+        <b><%= phoneNumber %></b>. This code will be valid for 30 seconds
+      </p>
+      <div class="input-container">
+        <input id="tokenInput" type="text" />
+      </div>
+    </div>
+    <div id="verify-btn-container" class="verify-btn-container">
+      
+      <input id="uploadURL" type="hidden" value="<%=verifyLink%>" />
+      <button type="button" id="verifyButton">Verify</button>
+    </div>
+    <div id="download-btn-container" class="download-btn-container">
+      <a href="<%= downloadLink %>">Download file</a>
+    </div>
+    <% } %>
+  </section>
+
+  <script defer>
+    const downloadButtonContainer = document.getElementById(
+      "download-btn-container"
+    );
+    const verifyButtonCotainer = document.getElementById(
+      "verify-btn-container"
+    );
+    const downloadReadyContainer = document.getElementById(
+      "download-ready-container"
+    );
+    const twofaContaier = document.getElementById("twofa");
+    const tokenInput = document.getElementById("tokenInput");
+    downloadButtonContainer.style.display = "none";
+    downloadReadyContainer.style.display = "none";
+
+    const verifyButton = document.getElementById("verifyButton");
+
+    verifyButton.addEventListener("click", function () {
+
+      // var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+      // xmlhttp.open("POST", uploadURL);
+      // xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      // const token = tokenInput.value;
+      // const body = {token}
+      // xmlhttp.send(JSON.stringify(body));
+
+
+      let formData = new FormData();
+      const token = tokenInput.value;
+      formData.append("token", token);
+      const xhr = new XMLHttpRequest();
+
+      // handle error
+      xhr.upload.onerror = function (err) {
+        console.log("err", err);
+        return;
+      };
+
+      // listen for response which will give the link
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE)
+          if (xhr.status == 200) {
+            verifyButtonCotainer.style.display = "none";
+            twofaContaier.style.display = "none";
+            downloadButtonContainer.style.display = "inline-block";
+            downloadReadyContainer.style.display = "flex";
+            downloadReadyContainer.style.flexDirection = "column";
+          } else {
+            console.log(JSON.parse(xhr.responseText));
+            Swal.fire({
+              title: 'Error!',
+              text: JSON.parse(xhr.responseText).description,
+              icon: 'error',
+              confirmButtonText: 'OK. Send me a new code!',
+              confirmButtonColor: "#03a9f4",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            }).then(res => {
+              if(res.isConfirmed){
+                location.reload();
+              }
+            })
+            return;
+          }
+      };
+
+      const uploadURL = document.getElementById("uploadURL").value;
+      xhr.open("POST", uploadURL);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({ token }));
+    });
+  </script>
+</body>
+
+</html>
