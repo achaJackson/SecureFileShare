@@ -2,8 +2,8 @@
 
 Rest api using Node, Express, Mongo.
 We will build rest api for a simple file sharing app. 
-### Backend source code can be found on @achaJackson Github
-https://github.com/achaJackson/SecureFileShare-Backend
+### Frontend source code can be found on @achaJackson Github
+https://github.com/achaJackson/SecureFileShare-Frontend
 
 
 ## Installation 
