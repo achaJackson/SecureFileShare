@@ -2,9 +2,6 @@
 
 Rest api using Node, Express, Mongo.
 We will build rest api for a simple file sharing app. 
-
-![demo gif](https://github.com/ShivamJoker/GIF-Demos/raw/master/inshare%20demo.gif)
-
 ### Backend source code can be found on @achaJackson Github
 https://github.com/achaJackson/SecureFileShare-Backend
 
