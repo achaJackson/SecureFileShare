@@ -11,6 +11,7 @@ router.get("/:uuid", async (req, res) => {
       return res.render("download", { error: "Link has been expired." });
     }
     const params = {
+      //sender's number
       originator: "+112064086195",
       type: "sms",
     };
