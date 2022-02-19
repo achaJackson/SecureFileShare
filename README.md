@@ -6,7 +6,7 @@ We will build rest api for a simple file sharing app.
 # How it works ? 
 The platform requires only the receiver's phone number to make a file transfer. Once the file is uploaded and the parameters set, a sharable link is now generated. The sender can now send this clickable link to the receiver in any manner(including unsecured methods such as personal devices, or apps or exchange services, etc) The receiver now has to click and download the file. However, before downloading, Two-factor Authentication (2FA) lunches. I used a TOTP (Time based one-time password) for 2FA. The code is sent to the receiver's phone number and you have less than 2 minutes to validate your input and you are granted access for a limited time to download the resource shared else, the page is expired. This respects the norms of confidentiality(encryption), Integrity, and availability(2FA).
 
-Points to note:
+Points to note:clear
 -No user account is needed. You need just a phone number(receiver)
 -Cost no fee (0 FCFA) [Cheaper than Google Drive, One Drive, Dropbox. etc]
 -Cannot be susceptible to phishing attacks since user accounts don't exist.
