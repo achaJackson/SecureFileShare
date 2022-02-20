@@ -18,9 +18,8 @@ https://github.com/achaJackson/SecureFileShare-Frontend
 
 
 ## Installation 
-After download or clone run `npm install` OR `yarn install` to install all the dependancies.
+After download or clone, run `docker build .` in the home directory to build the image. Then run `docker run -p 3000:3000 imageID` to run the image and produce a running container(your app).
+
 also do not forget to rename `.env-template` into `.env` an put all creadentials.
-
-
 
 🙏 If you find this repo helpful then don't forget to give a start ❇️ to this repository. :)
